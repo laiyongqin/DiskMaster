@@ -8,6 +8,9 @@
     <Filter Include="Utilities">
       <UniqueIdentifier>{d85edf03-98fb-4a02-ac18-7f9f46475ada}</UniqueIdentifier>
     </Filter>
+    <Filter Include="FTDI">
+      <UniqueIdentifier>{c8cf57ea-eff6-48e9-bec2-3a5e2cd7d86e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -16,6 +19,7 @@
     <ClInclude Include="targetver.h">
       <Filter>Standart Files</Filter>
     </ClInclude>
+    <ClInclude Include="ForTest.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
