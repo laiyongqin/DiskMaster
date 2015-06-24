@@ -18,43 +18,52 @@ private:
 	{
 		PDEV_BROADCAST_HDR header = (PDEV_BROADCAST_HDR)lParam;
 		DEV_BROADCAST_PORT *port_info = nullptr;
-		TCHAR *name;
-		if (uMsg == WM_DEVICECHANGE) {
-			
+		char *name = nullptr;
+
+		if (uMsg == WM_DEVICECHANGE) {			
 			switch (wParam) {
-			case DBT_DEVICEARRIVAL:
-				if (header->dbch_devicetype == DBT_DEVTYP_PORT) {
-					port_info = (PDEV_BROADCAST_PORT)(lParam);
-					name = port_info->dbcp_name;
+				case DBT_DEVICEARRIVAL:
+					if (header->dbch_devicetype == DBT_DEVTYP_PORT) {
+						port_info = (PDEV_BROADCAST_PORT)(lParam);
+						name = (char *)port_info->dbcp_name;
 						
-				}
-
-				break;
-			case DBT_DEVICEREMOVECOMPLETE:
-				if (header->dbch_devicetype == DBT_DEVTYP_PORT)
-
-				break;
+					}
+					break;
+				case DBT_DEVICEREMOVECOMPLETE:
+					if (header->dbch_devicetype == DBT_DEVTYP_PORT) {
+						port_info = (PDEV_BROADCAST_PORT)(lParam);
+						name = (char *)port_info->dbcp_name;
+					}
+					break;
 			}
 			return TRUE;
 		}
-		else return DefWindowProc(hwnd, uMsg, wParam, lParam);
+		else {
+			return DefWindowProc(hwnd, uMsg, wParam, lParam);
+		}
 	}
 
 	void RegisterWindowClass(void)
 	{
-		HINSTANCE hinst = ::GetModuleHandle(NULL);
 		WNDCLASSEXA wce;
 		memset(&wce, 0x00, sizeof(WNDCLASSEX));
 
 		wce.cbSize = sizeof(wce);
 		wce.lpfnWndProc = HardwareMonitor::StaticWindowProc;
-		wce.hInstance = hinst;
+		
+		wce.hInstance = ::GetModuleHandle(NULL);
+		if (wce.hInstance == NULL) {
+			std::error_code error(::GetLastError(), std::system_category());
+			throw std::system_error(error, "HardwareMonitor::RegisterWindowClass()");
+		}
+
 		wce.lpszClassName = HARDWARE_MONITOR_CLASS_NAME;
 
 		if (!::RegisterClassExA(&wce)) {
 			std::error_code error(::GetLastError(), std::system_category());
-			if (ERROR_CLASS_ALREADY_EXISTS != error.value())
+			if (ERROR_CLASS_ALREADY_EXISTS != error.value()) {
 				throw std::system_error(error, "HardwareMonitor::RegisterWindowClass()");
+			}
 		}
 	}
 
@@ -83,7 +92,7 @@ private:
 		}
 	}
 
-	void Initialise(void)
+	void Initialize(void)
 	{
 		RegisterWindowClass();
 		CraeteWindow();
@@ -92,7 +101,7 @@ private:
 public:
 	HardwareMonitor(void) : wnd(NULL)
 	{
-		Initialise();
+		Initialize();
 	}
 
 	~HardwareMonitor(void)

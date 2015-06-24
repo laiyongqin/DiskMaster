@@ -1,30 +1,35 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Standart Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
     <Filter Include="Utilities">
       <UniqueIdentifier>{d85edf03-98fb-4a02-ac18-7f9f46475ada}</UniqueIdentifier>
     </Filter>
     <Filter Include="FTDI">
       <UniqueIdentifier>{c8cf57ea-eff6-48e9-bec2-3a5e2cd7d86e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Other">
+      <UniqueIdentifier>{f8ae62a0-a98e-4529-88b3-998c2a25e72d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ForTest.h" />
+    <ClInclude Include="FtdiDevice.h">
+      <Filter>FTDI</Filter>
+    </ClInclude>
     <ClInclude Include="stdafx.h">
-      <Filter>Standart Files</Filter>
+      <Filter>Other</Filter>
     </ClInclude>
     <ClInclude Include="targetver.h">
-      <Filter>Standart Files</Filter>
+      <Filter>Other</Filter>
     </ClInclude>
-    <ClInclude Include="ForTest.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="stdafx.cpp">
-      <Filter>Standart Files</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="FtdiDevice.cpp">
+      <Filter>FTDI</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Other</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
